@@ -1,0 +1,166 @@
+openapi: 3.0.1
+info:
+  title: API de Inventario
+  description: API generada a partir de la colección Postman para gestión de ingredientes y recetas.
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /ingrediente:
+    post:
+      summary: Crear un nuevo ingrediente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  example: "ingrediente 1"
+                cantidad:
+                  type: number
+                  example: 20
+                unidad_medida:
+                  type: string
+                  example: "pso"
+      responses:
+        '201':
+          description: Ingrediente creado exitosamente
+
+  /ingrediente/{id}:
+    get:
+      summary: Obtener ingrediente por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ingrediente encontrado
+
+  /ingrediente/{id}/cantidad:
+    put:
+      summary: Actualizar cantidad de un ingrediente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cantidad:
+                  type: number
+                  example: 12
+      responses:
+        '200':
+          description: Cantidad actualizada
+
+  /inventario/disponibilidad:
+    post:
+      summary: Verificar disponibilidad de ingredientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: number
+            example:
+              "d71e766f-0a01-43e0-9275-33b307e96431": 14
+      responses:
+        '200':
+          description: Disponibilidad validada
+
+  /receta:
+    post:
+      summary: Crear una receta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  example: "receta 1"
+                ingredientes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ingrediente_id:
+                        type: string
+                      cantidad:
+                        type: number
+      responses:
+        '201':
+          description: Receta creada
+
+  /receta/{id}:
+    get:
+      summary: Obtener una receta por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Receta encontrada
+
+  /receta/{id}/ingrediente:
+    put:
+      summary: Agregar o actualizar un ingrediente en la receta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingrediente_id:
+                  type: string
+                cantidad:
+                  type: number
+      responses:
+        '200':
+          description: Ingrediente agregado o actualizado
+
+  /receta/{id}/ingrediente/{ingrediente_id}:
+    delete:
+      summary: Eliminar un ingrediente de la receta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: ingrediente_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ingrediente eliminado
