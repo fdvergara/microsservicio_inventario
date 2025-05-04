@@ -14,8 +14,8 @@ func MapRoutes(app *gin.Engine) {
 	app.GET(appControllers.recetaController.RouteGetReceta(), appControllers.recetaController.GetReceta)
 	app.POST(appControllers.recetaController.RouteAddReceta(), appControllers.recetaController.AddReceta)
 	app.PUT(appControllers.recetaController.RouteRecetaIngrediente(), appControllers.recetaController.AddIngrediente)
-	app.DELETE(appControllers.recetaController.RouteRemoveIngrediente(), appControllers.recetaController.RemoveIngrediente)
 
 	//Controller de inventario
+	app.POST(appControllers.inventarioController.GetRouteInventario(), appControllers.inventarioController.GetAvailable)
 	app.POST(appControllers.inventarioController.GetRouteInventario(), appControllers.inventarioController.GetAvailable)
 }

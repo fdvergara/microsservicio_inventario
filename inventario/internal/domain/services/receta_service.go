@@ -5,7 +5,6 @@ import (
 	"cmd/api/internal/infrastructure/persistence"
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/google/uuid"
@@ -84,8 +83,6 @@ func (i *recetaService) RemoveIngrediente(ctx context.Context, id string, ingred
 			},
 		},
 	}
-
-	fmt.Println("este", update)
 
 	err = i.repository.Update(ctx, id, update)
 	if err != nil {

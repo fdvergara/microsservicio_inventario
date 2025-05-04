@@ -23,7 +23,7 @@ func (m *RecetaServiceMock) Get(ctx context.Context, id string) (domain.Receta, 
 
 func (m *RecetaServiceMock) AddIngrediente(ctx context.Context, id string, ingredienteCantidad domain.IngredienteCantidad) error {
 	args := m.Called(id, ingredienteCantidad)
-	return args.Error(1)
+	return args.Error(0)
 }
 
 func (m *RecetaServiceMock) RemoveIngrediente(ctx context.Context, id string, ingrediente_id string) error {

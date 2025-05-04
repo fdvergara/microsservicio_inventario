@@ -3,6 +3,7 @@ package main
 import (
 	"cmd/api/internal/application/controllers"
 	"cmd/api/internal/domain/services"
+	"cmd/api/internal/infrastructure/messaging"
 	"cmd/api/internal/infrastructure/persistence"
 	"context"
 	"log"
@@ -47,6 +48,12 @@ func build() error {
 		inventarioController:  controllers.NewInventarioController(inventarioService),
 	}
 
+	consumer := controllers.NewInventarioConsumerController(messageinClient(), inventarioService, "inventario_topic", "inventario.#")
+	err = consumer.Start()
+	if err != nil {
+		log.Fatalf("Error iniciando el consumidor: %v", err)
+	}
+
 	return nil
 }
 
@@ -66,4 +73,12 @@ func mongoClient(collection string, database string) (*mongo.Collection, error) 
 
 	connection := client.Database(database).Collection(collection)
 	return connection, nil
+}
+
+func messageinClient() *messaging.RabbitMQClient {
+	rabbitClient, err := messaging.NewRabbitMQClient("amqp://guest:guest@rabbitmq:5672/")
+	if err != nil {
+		log.Fatalf("Error conectando a RabbitMQ: %v", err)
+	}
+	return rabbitClient
 }

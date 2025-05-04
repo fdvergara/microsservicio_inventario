@@ -6,6 +6,7 @@ import (
 
 type InventarioService interface {
 	VerificarDisponibilidad(ctx context.Context, ingredientes map[string]float64) (bool, map[string]float64, error)
+	UpdateInventario(ctx context.Context, id string, cantidad float64) error
 }
 
 type inventarioService struct {
@@ -28,4 +29,13 @@ func (s *inventarioService) VerificarDisponibilidad(ctx context.Context, ingredi
 		}
 	}
 	return len(detalle) == 0, detalle, nil
+}
+
+func (s *inventarioService) UpdateInventario(ctx context.Context, id string, cantidad float64) error {
+	ingrediente, err := s.ingrediente.Get(ctx, id)
+	if err != nil {
+		return err
+	}
+	err = s.ingrediente.Update(ctx, id, ingrediente.Cantidad-cantidad)
+	return err
 }

@@ -14,6 +14,33 @@ Este servicio está construido con **Go (Golang)** y sigue el patrón de **Arqui
 
 Igualmente se está utilizando la base de datos con MongoDB.
 
+## 🐇 Configuración de RabbitMQ
+
+Este proyecto utiliza **RabbitMQ** como sistema de mensajería para comunicación asíncrona basada en eventos. Contiene un consumidor que recibe las novedades para actualizar el inventario con los siguientes parametros:
+
+```text
+{
+"ingrediente_id":abf63e1a-bbae-45bc-ac2a-7fb2a3f36ca5,
+"cantidad":10
+}
+```
+
+### 🔧 Parámetros de conexión
+
+- **Host:** `localhost`
+- **Puerto AMQP:** `5672`
+- **Puerto UI (RabbitMQ Management):** `15672`
+- **Usuario:** `guest`
+- **Contraseña:** `guest`
+
+### 🧩 Configuración del exchange
+
+Se utiliza un exchange tipo `topic` llamado:
+
+```text
+inventario_topic
+```
+
 ---
 
 ## ▶️ Ejecucióndel Proyecto
@@ -25,3 +52,7 @@ Dentro de la carpeta del proyecto. Aqui se le disponibilizará la aplicación y 
 ## 📄 Documentacion del Proyecto
 
 En el directorio **docs/** del proyecto se encuentra la documentación swagger del microservicio.
+
+```
+
+```
