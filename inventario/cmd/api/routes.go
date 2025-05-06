@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,5 +19,11 @@ func MapRoutes(app *gin.Engine) {
 
 	//Controller de inventario
 	app.POST(appControllers.inventarioController.GetRouteInventario(), appControllers.inventarioController.GetAvailable)
-	app.POST(appControllers.inventarioController.GetRouteInventario(), appControllers.inventarioController.GetAvailable)
+}
+
+func InitConsumer() {
+	err := appControllers.consumer.Start()
+	if err != nil {
+		log.Fatalf("Error iniciando el consumidor: %v", err)
+	}
 }

@@ -38,7 +38,8 @@ Este proyecto utiliza **RabbitMQ** como sistema de mensajería para comunicació
 Se utiliza un exchange tipo `topic` llamado:
 
 ```text
-inventario_topic
+Topic: inventario_topic
+Routing Key: inventario.#
 ```
 
 ---

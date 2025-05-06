@@ -20,8 +20,8 @@ type Message struct {
 	Cantidad int    `json:"cantidad"`
 }
 
-func NewInventarioConsumerController(c *messaging.RabbitMQClient, s services.InventarioService, exchange, routingKey string) *InventarioConsumer {
-	return &InventarioConsumer{
+func NewInventarioConsumerController(c *messaging.RabbitMQClient, s services.InventarioService, exchange, routingKey string) InventarioConsumer {
+	return InventarioConsumer{
 		Client:     c,
 		service:    s,
 		Exchange:   exchange,
@@ -29,7 +29,7 @@ func NewInventarioConsumerController(c *messaging.RabbitMQClient, s services.Inv
 	}
 }
 
-func (lc *InventarioConsumer) Start() error {
+func (lc InventarioConsumer) Start() error {
 	ch := lc.Client.GetChannel()
 
 	// Declarar el exchange tipo topic
@@ -98,5 +98,6 @@ func (lc *InventarioConsumer) Start() error {
 		}
 	}()
 
-	select {}
+	// select {}
+	return nil
 }

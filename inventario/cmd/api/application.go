@@ -16,6 +16,7 @@ type AppControllers struct {
 	ingredienteController controllers.IngredienteController
 	recetaController      controllers.RecetaController
 	inventarioController  controllers.InventarioController
+	consumer              controllers.InventarioConsumer
 }
 
 var appControllers *AppControllers
@@ -42,16 +43,13 @@ func build() error {
 	recetaService := services.NewRecetaService(repositoryReceta)
 	inventarioService := services.NewInventarioService(ingredienteService)
 
+	consumer := controllers.NewInventarioConsumerController(messageinClient(), inventarioService, "inventario_topic", "inventario.#")
+
 	appControllers = &AppControllers{
 		ingredienteController: controllers.NewIngredienteController(ingredienteService),
 		recetaController:      controllers.NewrecetaController(recetaService),
 		inventarioController:  controllers.NewInventarioController(inventarioService),
-	}
-
-	consumer := controllers.NewInventarioConsumerController(messageinClient(), inventarioService, "inventario_topic", "inventario.#")
-	err = consumer.Start()
-	if err != nil {
-		log.Fatalf("Error iniciando el consumidor: %v", err)
+		consumer:              consumer,
 	}
 
 	return nil

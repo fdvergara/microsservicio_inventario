@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 )
 
 type InventarioService interface {
@@ -36,6 +37,11 @@ func (s *inventarioService) UpdateInventario(ctx context.Context, id string, can
 	if err != nil {
 		return err
 	}
+
+	if ingrediente.Cantidad < cantidad {
+		return errors.New("error_update")
+	}
+
 	err = s.ingrediente.Update(ctx, id, ingrediente.Cantidad-cantidad)
 	return err
 }

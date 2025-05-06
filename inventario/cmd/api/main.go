@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -25,8 +26,10 @@ func main() {
 	}
 
 	MapRoutes(app)
-
+	InitConsumer()
+	fmt.Println("Server running on port 8080")
 	if err := app.Run(":8080"); err != nil {
 		panic(err)
 	}
+
 }
